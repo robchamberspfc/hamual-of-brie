@@ -238,18 +238,18 @@ const W = 500, H = 500, CX = 250, CY = 250, WATCH_R = 232;
 // Gear layout — more varied sizes, denser packing, closer to reference
 // Large central gear dominates; mix of sizes around it
 const GEARS = [
-  { cx: 250, cy: 175, outerR: 78,  teeth: 48, toothH: 7, dur: 18, hubR: 18, gold: false }, // 0 top large
-  { cx: 370, cy: 155, outerR: 52,  teeth: 32, toothH: 6, dur: 28, hubR: 12, gold: false }, // 1 top-right med
-  { cx: 436, cy: 231, outerR: 34,  teeth: 20, toothH: 5, dur: 44, hubR:  8, gold: false }, // 2 right small
-  { cx: 248, cy: 295, outerR: 112, teeth: 68, toothH: 9, dur: 13, hubR: 26, gold: true  }, // 3 centre GOLD dominant
-  { cx: 128, cy: 155, outerR: 52,  teeth: 32, toothH: 6, dur: 28, hubR: 12, gold: false }, // 4 top-left med
-  { cx:  64, cy: 231, outerR: 34,  teeth: 20, toothH: 5, dur: 44, hubR:  8, gold: false }, // 5 left small
-  { cx: 380, cy: 344, outerR: 60,  teeth: 36, toothH: 6, dur: 24, hubR: 14, gold: false }, // 6 right-lower
-  { cx: 120, cy: 344, outerR: 60,  teeth: 36, toothH: 6, dur: 24, hubR: 14, gold: false }, // 7 left-lower
-  { cx: 248, cy: 427, outerR: 44,  teeth: 26, toothH: 5, dur: 36, hubR: 10, gold: false }, // 8 bottom-centre
-  { cx: 368, cy: 400, outerR: 30,  teeth: 18, toothH: 4, dur: 52, hubR:  7, gold: false }, // 9 bottom-right
-  { cx: 132, cy: 400, outerR: 30,  teeth: 18, toothH: 4, dur: 52, hubR:  7, gold: false }, // 10 bottom-left
-  { cx: 437, cy: 312, outerR: 24,  teeth: 14, toothH: 4, dur: 62, hubR:  6, gold: false }, // 11 tiny right-mid
+  { cx: 250, cy: 175, outerR: 78,  teeth: 56, toothH: 7, dur: 18, hubR: 18, gold: false }, // 0 top large
+  { cx: 370, cy: 155, outerR: 52,  teeth: 38, toothH: 6, dur: 28, hubR: 12, gold: false }, // 1 top-right med
+  { cx: 436, cy: 231, outerR: 34,  teeth: 24, toothH: 5, dur: 44, hubR:  8, gold: false }, // 2 right small
+  { cx: 248, cy: 295, outerR: 112, teeth: 80, toothH: 9, dur: 13, hubR: 26, gold: true  }, // 3 centre GOLD dominant
+  { cx: 128, cy: 155, outerR: 52,  teeth: 38, toothH: 6, dur: 28, hubR: 12, gold: false }, // 4 top-left med
+  { cx:  64, cy: 231, outerR: 34,  teeth: 24, toothH: 5, dur: 44, hubR:  8, gold: false }, // 5 left small
+  { cx: 380, cy: 344, outerR: 60,  teeth: 44, toothH: 6, dur: 24, hubR: 14, gold: false }, // 6 right-lower
+  { cx: 120, cy: 344, outerR: 60,  teeth: 44, toothH: 6, dur: 24, hubR: 14, gold: false }, // 7 left-lower
+  { cx: 248, cy: 427, outerR: 44,  teeth: 32, toothH: 5, dur: 36, hubR: 10, gold: false }, // 8 bottom-centre
+  { cx: 368, cy: 400, outerR: 30,  teeth: 22, toothH: 4, dur: 52, hubR:  7, gold: false }, // 9 bottom-right
+  { cx: 132, cy: 400, outerR: 30,  teeth: 22, toothH: 4, dur: 52, hubR:  7, gold: false }, // 10 bottom-left
+  { cx: 437, cy: 312, outerR: 24,  teeth: 16, toothH: 4, dur: 62, hubR:  6, gold: false }, // 11 tiny right-mid
 ];
 
 const MESH_PAIRS = [
@@ -280,23 +280,23 @@ function computeRotations() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function goldPlatePath() {
-  // Wide sweeping bridge shapes filling ~40% of the watch face
-  // Left bridge: sweeps from top-left down through left side to bottom-left
-  const b1 = `M 80,55 C 130,30 195,45 210,90
-               C 225,130 175,155 155,185
-               C 130,220 95,225 75,265
-               C 55,305 65,360 95,395
-               C 70,375 45,330 42,280
-               C 38,220 55,170 65,130
-               C 72,100 75,70 80,55 Z`;
-  // Right bridge: sweeps from top-right down through right side
-  const b2 = `M 420,55 C 370,30 305,45 290,90
-               C 275,130 325,155 345,185
-               C 370,220 405,225 425,265
-               C 445,305 435,360 405,395
-               C 430,375 455,330 458,280
-               C 462,220 445,170 435,130
-               C 428,100 425,70 420,55 Z`;
+  // Wide sweeping bridge shapes — organic, fills ~45% of watch face
+  // Left bridge: broad sweep from top-left, narrows in middle, widens at bottom
+  const b1 = `M 95,42 C 145,22 200,38 215,82
+               C 228,118 185,148 162,178
+               C 138,210 100,218 78,258
+               C 56,298 62,355 88,392
+               C 58,368 35,318 33,268
+               C 30,208 50,158 62,118
+               C 70,88 78,58 95,42 Z`;
+  // Right bridge: mirror sweep
+  const b2 = `M 405,42 C 355,22 300,38 285,82
+               C 272,118 315,148 338,178
+               C 362,210 400,218 422,258
+               C 444,298 438,355 412,392
+               C 442,368 465,318 467,268
+               C 470,208 450,158 438,118
+               C 430,88 422,58 405,42 Z`;
   return b1 + ' ' + b2;
 }
 
@@ -325,7 +325,7 @@ function renderWatchCanvas(sections) {
 
   // ── Outer watch case ──
   svg.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R + 6, fill: '#8a6520' }));
-  svg.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R, fill: '#0d0a04' }));
+  svg.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R, fill: 'url(#watch-bg-grad)' }));
   svg.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R, fill: 'none', stroke: '#c9a84c', 'stroke-width': '12' }));
   svg.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R - 16, fill: 'none', stroke: '#e8c870', 'stroke-width': '1.5' }));
   svg.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R + 10, fill: 'none', stroke: '#5a4010', 'stroke-width': '3' }));
@@ -336,6 +336,13 @@ function renderWatchCanvas(sections) {
   const clip = el('clipPath', { id: clipId });
   clip.appendChild(el('circle', { cx: CX, cy: CY, r: WATCH_R - 7 }));
   defs.appendChild(clip);
+
+  // Radial gradient for watch interior — dark centre, slightly lighter edge
+  const grad = el('radialGradient', { id: 'watch-bg-grad', cx: '50%', cy: '40%', r: '60%' });
+  grad.appendChild(el('stop', { offset: '0%', 'stop-color': '#1a1408', 'stop-opacity': '1' }));
+  grad.appendChild(el('stop', { offset: '100%', 'stop-color': '#080604', 'stop-opacity': '1' }));
+  defs.appendChild(grad);
+
   svg.appendChild(defs);
 
   const clipped = el('g', { 'clip-path': `url(#${clipId})` });
@@ -372,10 +379,10 @@ function renderWatchCanvas(sections) {
     const { dir, phase } = rotations[i];
     const rootR = g.outerR - g.toothH;
     const isSkeletal = SKELETAL_GEARS.has(i);
-    const gearColor = g.gold ? '#e8c870' : (isSkeletal ? 'none' : '#e8eaed');
-    const bodyColor = g.gold ? '#c9a84c' : (isSkeletal ? 'none' : '#d0d4d8');
-    const strokeCol = g.gold ? '#fff8e0' : (isSkeletal ? '#e8eaed' : '#ffffff');
-    const strokeW   = isSkeletal ? '1.2' : '0.3';
+    const gearColor = g.gold ? '#f0d878' : (isSkeletal ? 'none' : '#f0f2f4');
+    const bodyColor = g.gold ? '#d4a843' : (isSkeletal ? 'none' : '#e8eaed');
+    const strokeCol = g.gold ? '#fff8d0' : (isSkeletal ? '#d8dce0' : '#ffffff');
+    const strokeW   = isSkeletal ? '1.4' : '0.4';
 
     // Rotating group
     const rotGroup = el('g', { class: 'gear-rotate-group' });
@@ -402,12 +409,15 @@ function renderWatchCanvas(sections) {
     });
     rotGroup.appendChild(bodyPath);
 
-    // Hub jewel — skeletal gears get a ring only, no fill
-    const jewelFill = isSkeletal ? 'none' : '#9b1a2a';
-    rotGroup.appendChild(el('circle', { r: g.hubR * 0.5, fill: jewelFill, stroke: '#d03050', 'stroke-width': isSkeletal ? '1' : '0.8', 'aria-hidden': 'true' }));
-    if (!isSkeletal) {
-      rotGroup.appendChild(el('circle', { r: g.hubR * 0.18, cx: -(g.hubR*0.18), cy: -(g.hubR*0.18), fill: 'rgba(255,120,140,0.6)', 'aria-hidden': 'true' }));
-    }
+    // Hub — screw detail (outer ring + slot line, like reference image)
+    const hubFill = isSkeletal ? 'none' : (g.gold ? '#d4a843' : '#c8ccd0');
+    const hubStroke = g.gold ? '#fff8d0' : '#ffffff';
+    rotGroup.appendChild(el('circle', { r: g.hubR * 0.62, fill: hubFill, stroke: hubStroke, 'stroke-width': '0.8', 'aria-hidden': 'true' }));
+    // Screw slot line
+    const slotLen = g.hubR * 0.45;
+    rotGroup.appendChild(el('line', { x1: -slotLen, y1: '0', x2: slotLen, y2: '0', stroke: g.gold ? '#8a6520' : '#606870', 'stroke-width': '1.2', 'aria-hidden': 'true' }));
+    // Centre dot
+    rotGroup.appendChild(el('circle', { r: g.hubR * 0.15, fill: g.gold ? '#8a6520' : '#606870', 'aria-hidden': 'true' }));
 
     // For skeletal gears, add a transparent hit area so the whole gear is clickable
     if (isSkeletal) {

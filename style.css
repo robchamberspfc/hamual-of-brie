@@ -1,0 +1,258 @@
+/* Manual of Me — Watch Movement Layout */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:        #c9a84c;
+  --gold-light:  #e8c870;
+  --gold-dark:   #8a6520;
+  --plate-bg:    #1a1208;
+  --watch-bg:    #0d0a04;
+  --gear-white:  #e8eaed;
+  --gear-stroke: #ffffff;
+  --text-dark:   #1a1208;
+  --panel-bg:    #161b22;
+  --panel-border:#c9a84c;
+  --focus-ring:  #58a6ff;
+  --error-bg:    #3d1a1a;
+  --error-border:#f85149;
+  --error-text:  #ffa198;
+}
+
+body {
+  background: #080604;
+  color: var(--gear-white);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+/* ── Hover label box above watch ── */
+#hover-label {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  min-height: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+#hover-label.is-active {
+  background: rgba(201,168,76,0.15);
+  border-color: rgba(201,168,76,0.6);
+}
+
+#hover-label-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+#hover-label-text {
+  font-size: 0.9rem;
+  color: #8b7a4a;
+  letter-spacing: 0.04em;
+  transition: color 200ms ease;
+}
+
+#hover-label.is-active #hover-label-text {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+/* ── Watch container ── */
+#watch-container {
+  position: relative;
+  width: min(90vw, 90vh, 700px);
+  aspect-ratio: 1;
+}
+
+#watch-label {
+  position: absolute;
+  bottom: -3rem;
+  left: 0; right: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+#watch-owner-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+}
+
+#watch-tagline {
+  font-size: 0.85rem;
+  color: #8b7a4a;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#main {
+  width: 100%;
+  height: 100%;
+}
+
+.watch-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ── Gear interactivity ── */
+.gear-wrapper {
+  cursor: pointer;
+}
+
+.gear-wrapper:focus-visible {
+  outline: none;
+}
+
+.gear-wrapper:focus-visible .gear-body-path {
+  filter: drop-shadow(0 0 6px var(--focus-ring));
+}
+
+.gear-wrapper:hover .gear-body-path,
+.gear-wrapper:hover .gear-teeth-path {
+  filter: brightness(1.25);
+}
+
+.gear-wrapper.is-expanded .gear-body-path,
+.gear-wrapper.is-expanded .gear-teeth-path {
+  filter: drop-shadow(0 0 8px var(--gold-light)) brightness(1.3);
+}
+
+/* ── Content panel ── */
+#content-panel {
+  position: fixed;
+  z-index: 300;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: var(--panel-bg);
+  border: 1.5px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 1.75rem 1.75rem 1.5rem;
+  width: min(480px, 92vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 40px rgba(201,168,76,0.25), 0 8px 32px rgba(0,0,0,0.6);
+  opacity: 0;
+  transition: opacity 220ms ease, transform 220ms ease;
+  pointer-events: none;
+}
+
+#content-panel:not([hidden]) {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+#content-panel[hidden] {
+  display: block !important; /* override hidden so transition works */
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+#panel-close {
+  position: absolute;
+  top: 0.75rem; right: 0.9rem;
+  background: none;
+  border: none;
+  color: #8b7a4a;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: color 150ms;
+}
+#panel-close:hover { color: var(--gold-light); }
+
+#panel-title {
+  font-size: 1.15rem;
+  color: var(--gold-light);
+  margin-bottom: 1rem;
+  padding-right: 2rem;
+  line-height: 1.3;
+}
+
+#panel-body {
+  font-size: 0.9rem;
+  color: #c8c0a8;
+  line-height: 1.65;
+}
+
+#panel-body h2, #panel-body h3 {
+  color: var(--gold);
+  font-size: 0.95rem;
+  margin: 0.8rem 0 0.35rem;
+}
+
+#panel-body p, #panel-body ul, #panel-body ol, #panel-body blockquote {
+  margin-bottom: 0.6rem;
+}
+
+#panel-body ul, #panel-body ol { padding-left: 1.4rem; }
+
+#panel-body blockquote {
+  border-left: 2px solid var(--gold-dark);
+  padding-left: 0.75rem;
+  color: #8b7a4a;
+}
+
+#panel-body a { color: var(--gold); }
+#panel-body strong { color: var(--gear-white); }
+#panel-body code {
+  background: #21262d;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+/* ── Error banner ── */
+.error-banner {
+  background: var(--error-bg);
+  border: 1px solid var(--error-border);
+  color: var(--error-text);
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* ── Focus ── */
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Mobile: panel full-width ── */
+@media (max-width: 500px) {
+  #content-panel {
+    width: 96vw;
+    padding: 1.25rem;
+  }
+  #watch-label { bottom: -2.5rem; }
+  #watch-owner-name { font-size: 1.1rem; }
+}

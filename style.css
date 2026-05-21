@@ -187,31 +187,54 @@ body {
   line-height: 1.65;
 }
 
-#panel-body h2, #panel-body h3 {
-  color: var(--gold);
-  font-size: 0.95rem;
-  margin: 0.8rem 0 0.35rem;
+#panel-body ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
-#panel-body p, #panel-body ul, #panel-body ol, #panel-body blockquote {
-  margin-bottom: 0.6rem;
+#panel-body ul li {
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid #8a6520;
+  color: #d8d0b8;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
-#panel-body ul, #panel-body ol { padding-left: 1.4rem; }
-
-#panel-body blockquote {
-  border-left: 2px solid var(--gold-dark);
-  padding-left: 0.75rem;
-  color: #8b7a4a;
+/* ── Cheese rain ── */
+.cheese-rain-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
 }
 
-#panel-body a { color: var(--gold); }
-#panel-body strong { color: var(--gear-white); }
-#panel-body code {
-  background: #21262d;
-  padding: 0.1em 0.35em;
-  border-radius: 3px;
-  font-size: 0.85em;
+.cheese-rain-container.left  { left: 0; }
+.cheese-rain-container.right { right: 0; }
+
+.cheese-drop {
+  position: absolute;
+  top: -100px;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  animation: cheese-fall linear infinite;
+  opacity: 0.92;
+}
+
+@keyframes cheese-fall {
+  0%   { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(110vh) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cheese-drop { animation: none; }
 }
 
 /* ── Easter egg button ── */

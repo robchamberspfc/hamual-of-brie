@@ -10,62 +10,105 @@
     {
       "title": "Working Hours & Days",
       "slug": "working-hours-days",
-      "body": "## My typical working hours\n\n- **Monday–Thursday**: 08:30–17:00\n"
+      "items": [
+        "Monday–Thursday",
+        "08:30–17:00"
+      ]
     },
     {
       "title": "Communication Preferences",
       "slug": "communication-preferences",
-      "body": "## How I prefer to communicate\n\n- **Async first**: Slack over calls for non-urgent topics\n- Short doc beats a long thread for complex discussions\n- I respond within 4 hours during working hours"
+      "items": [
+        "Async first — Slack over calls for non-urgent topics",
+        "A short doc beats a long thread for complex discussions",
+        "Lets chat when we need to!"
+      ]
     },
     {
       "title": "Conditions I Like to Work In",
       "slug": "conditions-i-like-to-work-in",
-      "body": "## My ideal working environment\n\n- Deep focus blocks in the morning, collaborative work in the afternoon\n- Clear goals and minimal interruptions\n- Background music helps me concentrate"
+      "items": [
+        "Like working with a good degree of uncertasinty and solving problems",
+        "Let me know what you need and let me get on with it"
+      ]
     },
     {
       "title": "Things I Need",
       "slug": "things-i-need",
-      "body": "## What I need to do my best work\n\n- Clear context when asking me to review something\n- Advance notice for meetings where possible\n- Psychological safety to ask questions"
+      "items": [
+        "Decent tech and freedom on it to work",
+        "Freedom to ask questions"
+      ]
     },
     {
       "title": "Best Way to Receive Feedback",
       "slug": "best-way-to-receive-feedback",
-      "body": "## How to give me feedback effectively\n\n- Direct and specific is better than vague and gentle\n- Written feedback I can reflect on works better than verbal-only\n- I appreciate feedback as close to the event as possible"
+      "items": [
+        "Direct and specific is better than vague and gentle",
+        "Written feedback I can reflect on works better than verbal-only",
+        "I appreciate feedback as close to the event as possible"
+      ]
     },
     {
       "title": "Things I Love at Work",
       "slug": "things-i-love-at-work",
-      "body": "## What energises me at work\n\n- Solving gnarly technical problems with a small team\n- Mentoring and pair programming\n- Clear documentation and well-named variables"
+      "items": [
+        "Solving gnarly technical problems with a small team",
+        "Sharing knowledge"
+      ]
     },
     {
       "title": "Things I Struggle With",
       "slug": "things-i-struggle-with",
-      "body": "## My known challenges\n\n- Context-switching between many tasks in a single day\n- Ambiguous requirements without a clear definition of done\n- Very long meetings without a clear agenda"
+      "items": [
+        "Dont ask me to take notes",
+        "Boredom"
+      ]
     },
     {
       "title": "What Gets Me Excited Outside of Work",
       "slug": "what-gets-me-excited-outside-of-work",
-      "body": "## My interests outside work\n\n- Hiking and wild swimming\n- Reading science fiction\n- Tinkering with home automation projects"
+      "items": [
+        "Sport, watching Pompey of the Chicago Bears",
+        "Getting out and about",
+        "Love a Cognac"
+      ]
     },
     {
       "title": "Top 5 Films",
       "slug": "top-5-films",
-      "body": "## My all-time favourite films\n\n1. *2001: A Space Odyssey* (1968)\n2. *Blade Runner* (1982)\n3. *Arrival* (2016)\n4. *The Shawshank Redemption* (1994)\n5. *Spirited Away* (2001)"
+      "items": [
+        "V for Vendetta",
+        "Hot Fuzz",
+        "Princess Mononoke",
+        "Scott Pilgrim",
+        "Errrr"
+      ]
     },
     {
       "title": "Favourite Cheese",
       "slug": "favourite-cheese",
-      "body": "## Cheeses I hold dear\n\n- **Cheddar** — the undisputed classic; mature, sharp, reliable\n- Brie is acceptable in a sandwich emergency"
+      "items": [
+        "Manchego",
+        "But chedder as well of course, more mature the better"
+      ]
     },
     {
       "title": "Any Other Interesting Fact",
       "slug": "any-other-interesting-fact",
-      "body": "## Something you might not know about me\n\n- I once cycled from London to Paris in three days\n- I can solve a Rubik's cube in under two minutes\n- Strong opinions about the correct way to load a dishwasher"
+      "items": [
+        "I can juggle a football pretty much indefinitely",
+        "I used to powerlift and could squat 140+ kg",
+        "Can take apart a pocket watch and put it back together"
+      ]
     },
     {
       "title": "Favourite Joke",
       "slug": "favourite-joke",
-      "body": "## My go-to joke\n\n> Why do programmers prefer dark mode?\n>\n> Because light attracts bugs."
+      "items": [
+        "Why do programmers prefer dark mode?",
+        "Because light attracts bugs."
+      ]
     }
   ]
 }

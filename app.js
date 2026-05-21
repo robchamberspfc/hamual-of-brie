@@ -45,10 +45,9 @@ function validateConfig(raw) {
       if (!slugRe.test(s.slug)) throw new ValidationError(`Invalid slug: "${s.slug}"`);
       if (seen.has(s.slug)) throw new ValidationError(`Duplicate slug: "${s.slug}"`);
       seen.add(s.slug);
-      const c = { title: s.title, slug: s.slug, body: typeof s.body === 'string' ? s.body : '' };
-      if (s.icon && typeof s.icon === 'string' && s.icon.trim()) c.icon = s.icon;
-      return c;
-    });
+      const items = Array.isArray(s.items) ? s.items.filter(i => typeof i === 'string' && i.trim()) : [];
+      const c = { title: s.title, slug: s.slug, items };
+      return c;    });
 
   return {
     owner: { name: raw.owner.name, tagline: raw.owner.tagline.slice(0, 150) },
@@ -545,7 +544,16 @@ function openPanel(idx) {
   const body = document.getElementById('panel-body');
 
   title.textContent = section.title;
-  body.innerHTML = renderMarkdown(section.body);
+  body.innerHTML = '';
+  if (section.items && section.items.length) {
+    const ul = document.createElement('ul');
+    section.items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+    body.appendChild(ul);
+  }
   panel.removeAttribute('hidden');
   panel.focus();
 }
@@ -588,15 +596,53 @@ function clearHoverLabel() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Easter egg — ham mode
+// Easter egg — ham mode + cheese rain
 // ─────────────────────────────────────────────────────────────────────────────
 
 let _hamMode = false;
+let _cheeseContainers = [];
+
+function createCheeseRain() {
+  ['left', 'right'].forEach(side => {
+    const container = document.createElement('div');
+    container.className = `cheese-rain-container ${side}`;
+
+    // 14 drops per side, staggered positions and timings
+    for (let i = 0; i < 14; i++) {
+      const img = document.createElement('img');
+      img.src = 'brie.png';
+      img.className = 'cheese-drop';
+      img.alt = '';
+      img.setAttribute('aria-hidden', 'true');
+
+      // Random horizontal position within the container
+      const leftPct = Math.random() * 100;
+      img.style.left = `${leftPct}%`;
+
+      // Random fall duration 2.5–5s, random delay so they're staggered
+      const dur = 2.5 + Math.random() * 2.5;
+      const delay = -(Math.random() * dur); // negative delay = already mid-fall on load
+      img.style.animationDuration = `${dur.toFixed(2)}s`;
+      img.style.animationDelay = `${delay.toFixed(2)}s`;
+
+      container.appendChild(img);
+    }
+
+    document.body.appendChild(container);
+    _cheeseContainers.push(container);
+  });
+}
+
+function removeCheeseRain() {
+  _cheeseContainers.forEach(c => c.remove());
+  _cheeseContainers = [];
+}
 
 function toggleHamMode() {
   _hamMode = !_hamMode;
   document.body.classList.toggle('ham-mode', _hamMode);
   document.title = _hamMode ? 'Hamual of Brie' : 'Manual of Me';
+
   const nameEl = document.getElementById('watch-owner-name');
   if (nameEl) {
     if (_hamMode) {
@@ -606,8 +652,15 @@ function toggleHamMode() {
       nameEl.textContent = nameEl.dataset.realName || nameEl.textContent;
     }
   }
+
   const btn = document.getElementById('easter-egg-btn');
   if (btn) btn.textContent = _hamMode ? '⚙️' : '🐷';
+
+  if (_hamMode) {
+    createCheeseRain();
+  } else {
+    removeCheeseRain();
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -128,31 +128,38 @@ function gearTeethPath(teeth, outerR, toothH, tipFrac = 0.42) {
   return 'M ' + pts.join(' L ') + ' Z';
 }
 
-// Rectangular spoke hole (CCW winding) centred at (cx,cy), oriented along angle.
-// Produces a proper rectangle with sharp corners — much more mechanical than ovals.
+// Spoke hole with curved ends that follow the hub and rim circles.
+// The hole is a rectangle-ish shape but the inner end follows the hub arc
+// and the outer end follows the root-circle arc.
 function spokeHole(cx, cy, hl, hw, angle) {
   const cos = Math.cos(angle), sin = Math.sin(angle);
-  // Four corners of the rectangle in local space (x=along spoke, y=across)
-  const corners = [
-    [ hl,  hw],  // far-right top    (CCW: go backwards)
-    [ hl, -hw],  // far-right bottom
-    [-hl, -hw],  // far-left bottom
-    [-hl,  hw],  // far-left top
-  ];
-  // Rotate each corner and format — CCW winding reverses the order
-  const pts = corners.map(([lx, ly]) =>
-    `${(cx + lx*cos - ly*sin).toFixed(2)},${(cy + lx*sin + ly*cos).toFixed(2)}`
-  );
-  return 'M ' + pts.join(' L ') + ' Z';
+  // Rotate a local point (lx, ly) into SVG space
+  function r(lx, ly) {
+    return [(cx + lx*cos - ly*sin).toFixed(2), (cy + lx*sin + ly*cos).toFixed(2)];
+  }
+  // Four corners — narrow width
+  const [x0, y0] = r( hl,  hw);  // outer-right
+  const [x1, y1] = r( hl, -hw);  // outer-left
+  const [x2, y2] = r(-hl, -hw);  // inner-left
+  const [x3, y3] = r(-hl,  hw);  // inner-right
+
+  // Outer arc: curves along the rim (convex outward, sweep=0 for CCW hole)
+  // Inner arc: curves along the hub (concave inward, sweep=1)
+  // Arc radii approximate the circle at that distance from gear centre
+  const outerArcR = (hl * 1.2).toFixed(2);
+  const innerArcR = (hl * 0.9).toFixed(2);
+
+  // Path: outer-right → outer-left (arc along rim) → inner-left → inner-right (arc along hub) → close
+  return `M ${x0},${y0} A ${outerArcR},${outerArcR} 0 0,0 ${x1},${y1} L ${x2},${y2} A ${innerArcR},${innerArcR} 0 0,1 ${x3},${y3} Z`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Gear body designs — 6 distinct visual styles matching the reference image
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Style A: classic spoked wheel (4 spokes)
+// Style A: classic spoked wheel (4 spokes) — used on medium gears
 function bodySpoked4(rootR, hubR) {
-  const spokeW = (rootR - hubR) * 0.24;
+  const spokeW = (rootR - hubR) * 0.13;
   const hl = (rootR - hubR) * 0.72;
   const mid = (rootR + hubR * 1.2) / 2;
   const holes = [0, 1, 2, 3].map(i => {
@@ -162,9 +169,21 @@ function bodySpoked4(rootR, hubR) {
   return [circleCW(rootR), circleCCW(hubR * 1.1), ...holes].join(' ');
 }
 
+// Style A+: 6-spoke version for large gears
+function bodySpoked4Large(rootR, hubR) {
+  const spokeW = (rootR - hubR) * 0.11;
+  const hl = (rootR - hubR) * 0.72;
+  const mid = (rootR + hubR * 1.2) / 2;
+  const holes = [0,1,2,3,4,5].map(i => {
+    const a = (Math.PI / 3) * i;
+    return spokeHole(mid * Math.cos(a), mid * Math.sin(a), hl, spokeW, a);
+  });
+  return [circleCW(rootR), circleCCW(hubR * 1.1), ...holes].join(' ');
+}
+
 // Style B: 6-spoke wheel
 function bodySpoked6(rootR, hubR) {
-  const spokeW = (rootR - hubR) * 0.20;
+  const spokeW = (rootR - hubR) * 0.12;
   const hl = (rootR - hubR) * 0.68;
   const mid = (rootR + hubR * 1.2) / 2;
   const holes = [0,1,2,3,4,5].map(i => {
@@ -179,17 +198,17 @@ function bodyConcentricRings(rootR, hubR) {
   const r1 = rootR * 0.82;
   const r2 = rootR * 0.64;
   const r3 = rootR * 0.46;
-  // Alternating CW/CCW for even-odd rings
   return [circleCW(rootR), circleCCW(r1), circleCW(r2), circleCCW(r3), circleCW(hubR * 1.1), circleCCW(hubR * 0.5)].join(' ');
 }
 
-// Style D: cross-cut (4 large rectangular cutouts in a + pattern)
+// Style D: cross-cut — 5 spokes on large gears
 function bodyCrossCut(rootR, hubR) {
-  const armW = rootR * 0.28;
+  const armW = rootR * 0.13;
   const armL = (rootR - hubR) * 0.75;
   const mid = (rootR + hubR * 1.3) / 2;
-  const holes = [0, 1, 2, 3].map(i => {
-    const a = (Math.PI / 2) * i;
+  const count = rootR > 70 ? 5 : 4;
+  const holes = Array.from({length: count}, (_, i) => {
+    const a = (2 * Math.PI / count) * i;
     return spokeHole(mid * Math.cos(a), mid * Math.sin(a), armL, armW, a);
   });
   return [circleCW(rootR), circleCCW(hubR * 1.15), ...holes].join(' ');
@@ -197,7 +216,7 @@ function bodyCrossCut(rootR, hubR) {
 
 // Style E: 3-spoke (like a small pinion)
 function bodySpoked3(rootR, hubR) {
-  const spokeW = (rootR - hubR) * 0.28;
+  const spokeW = (rootR - hubR) * 0.16;
   const hl = (rootR - hubR) * 0.70;
   const mid = (rootR + hubR * 1.2) / 2;
   const holes = [0,1,2].map(i => {
@@ -214,18 +233,18 @@ function bodySolidDisc(rootR, hubR) {
 
 // Assign a body style to each of the 12 gears
 const GEAR_BODY_STYLES = [
-  bodySpoked4,    // 0
-  bodySpoked6,    // 1
-  bodySpoked3,    // 2
-  bodyConcentricRings, // 3 (large gold — mainspring barrel)
-  bodySpoked4,    // 4
-  bodySolidDisc,  // 5
-  bodyCrossCut,   // 6
-  bodySpoked6,    // 7
-  bodySpoked3,    // 8
-  bodyCrossCut,   // 9 (large gold)
-  bodyConcentricRings, // 10
-  bodySolidDisc,  // 11
+  bodySpoked4Large,    // 0  large
+  bodySpoked6,         // 1  medium
+  bodySpoked3,         // 2  small
+  bodyConcentricRings, // 3  large gold — mainspring barrel
+  bodySpoked4Large,    // 4  large
+  bodySolidDisc,       // 5  small
+  bodyCrossCut,        // 6  medium-large
+  bodySpoked6,         // 7  medium
+  bodySpoked3,         // 8  medium
+  bodyCrossCut,        // 9  large gold
+  bodyConcentricRings, // 10 medium
+  bodySolidDisc,       // 11 tiny
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────

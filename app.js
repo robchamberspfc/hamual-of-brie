@@ -419,6 +419,20 @@ function renderWatchCanvas(sections) {
     // Centre dot
     rotGroup.appendChild(el('circle', { r: g.hubR * 0.15, fill: g.gold ? '#8a6520' : '#606870', 'aria-hidden': 'true' }));
 
+    // Ham easter egg image — hidden by default, shown in ham mode
+
+    const hamImg = el('image', {
+      class: 'ham-image',
+      href: 'jabugo-black-iberian-pig-bayonne-ham-jamon-iberico-jamon-png-7dda2dfa9bfea948af30f4b5d93d9bab.png',
+      x: String(-g.outerR),
+      y: String(-g.outerR),
+      width: String(g.outerR * 2),
+      height: String(g.outerR * 2),
+      preserveAspectRatio: 'xMidYMid meet',
+      'aria-hidden': 'true',
+    });
+    rotGroup.appendChild(hamImg);
+
     // For skeletal gears, add a transparent hit area so the whole gear is clickable
     if (isSkeletal) {
       const hitArea = el('circle', {
@@ -555,6 +569,29 @@ function clearHoverLabel() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Easter egg — ham mode
+// ─────────────────────────────────────────────────────────────────────────────
+
+let _hamMode = false;
+
+function toggleHamMode() {
+  _hamMode = !_hamMode;
+  document.body.classList.toggle('ham-mode', _hamMode);
+  document.title = _hamMode ? 'Hamual of Brie' : 'Manual of Me';
+  const nameEl = document.getElementById('watch-owner-name');
+  if (nameEl) {
+    if (_hamMode) {
+      nameEl.dataset.realName = nameEl.textContent;
+      nameEl.textContent = 'Hamual of Brie';
+    } else {
+      nameEl.textContent = nameEl.dataset.realName || nameEl.textContent;
+    }
+  }
+  const btn = document.getElementById('easter-egg-btn');
+  if (btn) btn.textContent = _hamMode ? '⚙️' : '🐷';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // renderPage — entry point after config loads
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -576,6 +613,10 @@ function renderPage(config) {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && _expandedIdx !== -1) closePanel();
   });
+
+  // Wire up easter egg button
+  const easterBtn = document.getElementById('easter-egg-btn');
+  if (easterBtn) easterBtn.addEventListener('click', toggleHamMode);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

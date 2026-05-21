@@ -214,6 +214,52 @@ body {
   font-size: 0.85em;
 }
 
+/* ── Easter egg button ── */
+#easter-egg-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  z-index: 500;
+  border-radius: 50%;
+  padding: 0;
+  line-height: 1;
+}
+
+#easter-egg-btn:hover,
+body:hover #easter-egg-btn {
+  opacity: 0.15;
+}
+
+#easter-egg-btn:hover {
+  opacity: 1 !important;
+}
+
+/* Ham mode — swap gear paths for ham images */
+body.ham-mode #watch-owner-name {
+  color: #ff6b6b;
+}
+
+body.ham-mode .gear-teeth-path,
+body.ham-mode .gear-body-path {
+  display: none;
+}
+
+body.ham-mode .ham-image {
+  display: block;
+}
+
+.ham-image {
+  display: none;
+}
+
 /* ── Error banner ── */
 .error-banner {
   background: var(--error-bg);
